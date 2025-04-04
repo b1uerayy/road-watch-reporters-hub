@@ -1,3 +1,4 @@
+
 import { faker } from '@faker-js/faker';
 
 // Types for our data
@@ -137,7 +138,15 @@ const generateComments = (count: number, users: User[]): Comment[] => {
 
 // Generate mock reports
 export const generateReports = (count: number, users: User[]): Report[] => {
-  return Array.from({ length: count }, () => {
+  // Fixed image URLs provided by the user
+  const imageUrls = [
+    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6',
+    'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7',
+    'https://images.unsplash.com/photo-1473091534298-04dcbce3278c',
+    'https://images.unsplash.com/photo-1498050108023-c5249f4df085'
+  ];
+
+  return Array.from({ length: count }, (_, index) => {
     const user = faker.helpers.arrayElement(users);
     const latitude = faker.location.latitude({ min: 28.5, max: 28.7 }); // Delhi-NCR region
     const longitude = faker.location.longitude({ min: 77.1, max: 77.3 });
@@ -147,6 +156,9 @@ export const generateReports = (count: number, users: User[]): Report[] => {
     
     // Use authentic Indian road names with damage type
     const roadTitle = `${faker.helpers.arrayElement(indianRoadNames)} ${faker.helpers.arrayElement(['Damage', 'Pothole', 'Crack', 'Erosion'])}`;
+    
+    // Use the provided images for the first 4 reports, otherwise use random ones
+    const imageUrl = index < 4 ? imageUrls[index] : faker.image.urlLoremFlickr({ category: 'road,damage' });
     
     return {
       id: faker.string.uuid(),
@@ -160,7 +172,7 @@ export const generateReports = (count: number, users: User[]): Report[] => {
         longitude,
         address: `${faker.helpers.arrayElement(indianRoadNames)}, ${faker.location.city()}, India`
       },
-      imageUrl: faker.image.urlLoremFlickr({ category: 'road,damage' }),
+      imageUrl,
       timestamp: faker.date.recent({ days: 60 }),
       status: faker.helpers.arrayElement(['Reported', 'Under Review', 'Repair Scheduled', 'Fixed']),
       roadInfo: {
@@ -184,8 +196,9 @@ export const generateWeeklyStats = (): number[] => {
 
 // Generate top reported roads
 export const generateTopRoads = (): { name: string; count: number }[] => {
+  // Use Indian road names for top reported roads
   return Array.from({ length: 5 }, (_, index) => ({
-    name: faker.location.street(),
+    name: indianRoadNames[index],
     count: faker.number.int({ min: 10 - index, max: 40 - index * 3 })
   }));
 };

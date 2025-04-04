@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Camera, MapPin, BarChart, User } from 'lucide-react';
@@ -10,10 +9,8 @@ import StatsCard from '../components/StatsCard';
 import { mockReports, totalReports, fixedReports } from '../utils/mockData';
 
 const Index: React.FC = () => {
-  // Get the 3 most recent reports
-  const recentReports = [...mockReports]
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-    .slice(0, 3);
+  // Get the 3 most recent reports - we're using the first reports which have our custom images
+  const recentReports = mockReports.slice(0, 3);
   
   return (
     <MainLayout>
