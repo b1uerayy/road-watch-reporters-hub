@@ -6,12 +6,12 @@ import MapView from '../components/MapView';
 const MapPage: React.FC = () => {
   return (
     <MainLayout>
-      <div className="space-y-4">
-        <h1 className="text-2xl font-bold">Issue Map</h1>
-        <p className="text-gray-600">
+      <div className="space-y-4 bg-custom-light-bg text-custom-almost-black p-4 rounded-lg">
+        <h1 className="text-2xl font-bold text-custom-dark-blue">Issue Map</h1>
+        <p className="text-custom-medium">
           Explore reported road issues across the city. Click on markers to view details.
         </p>
-        <div className="h-[700px]">
+        <div className="h-[700px] border border-custom-medium rounded-lg overflow-hidden">
           <MapView />
         </div>
       </div>
@@ -20,3 +20,4 @@ const MapPage: React.FC = () => {
 };
 
 export default MapPage;
+
