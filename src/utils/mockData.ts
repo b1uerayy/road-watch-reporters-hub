@@ -1,4 +1,3 @@
-
 import { faker } from '@faker-js/faker';
 
 // Types for our data
@@ -61,11 +60,30 @@ const roadTypes = [
   'Macadam'
 ];
 
-// Generate a contractor name
+// Updated road name generation with authentic Indian road names
+const indianRoadNames = [
+  'Tilak Road',
+  'Gandhi Chowk',
+  'Raintree Marg',
+  'Ambedkar Avenue',
+  'Nehru Street',
+  'Tagore Lane',
+  'Shivaji Nagar Road',
+  'Sarojini Marg',
+  'Dr. Rajendra Prasad Road',
+  'Lajpat Rai Road',
+  'Gurudwara Road',
+  'Mahatma Gandhi Road',
+  'Vivekananda Chowk',
+  'Bal Gangadhar Tilak Marg',
+  'Subhas Chandra Bose Street'
+];
+
+// Replace the generateContractor function to use more Indian-style names
 const generateContractor = () => {
-  const prefixes = ['National', 'Regional', 'City', 'Metro', 'Urban', 'Rural', 'Highway'];
-  const middleNames = ['Road', 'Infrastructure', 'Construction', 'Development', 'Engineering'];
-  const suffixes = ['Ltd.', 'Corp.', 'Inc.', 'Co.', 'Pvt. Ltd.', 'Group', 'Associates'];
+  const prefixes = ['Bharat', 'National', 'City', 'Metro', 'Urban', 'Rural', 'Desh'];
+  const middleNames = ['Infrastructure', 'Construction', 'Development', 'Engineering', 'Nirman'];
+  const suffixes = ['Pvt. Ltd.', 'Limited', 'Group', 'Solutions', 'Enterprises'];
   
   return `${faker.helpers.arrayElement(prefixes)} ${faker.helpers.arrayElement(middleNames)} ${faker.helpers.arrayElement(suffixes)}`;
 };
@@ -121,14 +139,14 @@ const generateComments = (count: number, users: User[]): Comment[] => {
 export const generateReports = (count: number, users: User[]): Report[] => {
   return Array.from({ length: count }, () => {
     const user = faker.helpers.arrayElement(users);
-    const latitude = faker.location.latitude({ min: 28.5, max: 28.7 }); // Delhi-NCR region as example
+    const latitude = faker.location.latitude({ min: 28.5, max: 28.7 }); // Delhi-NCR region
     const longitude = faker.location.longitude({ min: 77.1, max: 77.3 });
     const currentYear = new Date().getFullYear();
     const constructionYear = faker.number.int({ min: currentYear - 20, max: currentYear - 5 });
     const lastRepaired = faker.number.int({ min: constructionYear, max: currentYear - 1 });
     
-    // Create a road title based on location
-    const roadTitle = `${faker.location.street()} ${faker.helpers.arrayElement(['Damage', 'Pothole', 'Crack', 'Erosion', 'Sinkhole'])}`;
+    // Use authentic Indian road names with damage type
+    const roadTitle = `${faker.helpers.arrayElement(indianRoadNames)} ${faker.helpers.arrayElement(['Damage', 'Pothole', 'Crack', 'Erosion'])}`;
     
     return {
       id: faker.string.uuid(),
@@ -140,7 +158,7 @@ export const generateReports = (count: number, users: User[]): Report[] => {
       location: {
         latitude,
         longitude,
-        address: `${faker.location.streetAddress()}, ${faker.location.city()}`
+        address: `${faker.helpers.arrayElement(indianRoadNames)}, ${faker.location.city()}, India`
       },
       imageUrl: faker.image.urlLoremFlickr({ category: 'road,damage' }),
       timestamp: faker.date.recent({ days: 60 }),
